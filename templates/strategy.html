@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Strategy Performance</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        h1 { color: #333; }
+        .metric { margin-bottom: 1em; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1em; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Moving Average Crossover Strategy Performance</h1>
+    {% if performance.error %}
+        <p>{{ performance.error }}</p>
+    {% else %}
+        <div class="metric">
+            <p><strong>Cumulative Return:</strong> {{ performance.cumulative_return }}</p>
+            <p><strong>Buy Signals:</strong> {{ performance.buy_signals }}</p>
+            <p><strong>Sell Signals:</strong> {{ performance.sell_signals }}</p>
+            <p><strong>Hold Signals:</strong> {{ performance.hold_signals }}</p>
+        </div>
+
+        <h2>Dataset with Signals</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                    <th>Volume</th>
+                    <th>Signal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in performance.dataset %}
+                <tr>
+                    <td>{{ row.datetime }}</td>
+                    <td>{{ row.open }}</td>
+                    <td>{{ row.high }}</td>
+                    <td>{{ row.low }}</td>
+                    <td>{{ row.close }}</td>
+                    <td>{{ row.volume }}</td>
+                    <td>
+                        {% if row.signal == 1 %}
+                            Buy
+                        {% elif row.signal == -1 %}
+                            Sell
+                        {% else %}
+                            Hold
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</body>
+</html>
